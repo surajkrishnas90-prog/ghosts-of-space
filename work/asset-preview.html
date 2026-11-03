@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>GHOSTS OF SPACE · Local Asset Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="module" src="./vendor/model-viewer.min.js"></script>
+  <style>
+    :root { color-scheme: dark; --bg:#070911; --panel:#101522; --panel2:#0b101a; --line:#2a3040; --text:#f2f1f0; --muted:#a4aabe; --violet:#b6a5ff; --gold:#d8c18a; --mars:#ef9477; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:radial-gradient(ellipse at 14% -8%,#242044 0,transparent 38rem),radial-gradient(ellipse at 93% 23%,#252035 0,transparent 34rem),var(--bg); color:var(--text); font-family:"Space Grotesk",system-ui,sans-serif; line-height:1.55; }
+    body::before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.32; background-image:radial-gradient(1px 1px at 12% 24%,#fff 40%,transparent),radial-gradient(1px 1px at 73% 18%,#b9b6ff 40%,transparent),radial-gradient(1px 1px at 88% 73%,#fff 40%,transparent),radial-gradient(1px 1px at 32% 84%,#e4d7bd 40%,transparent); background-size:340px 280px,420px 370px,510px 410px,390px 330px; }
+    a { color:#c4b9ff; text-decoration-thickness:1px; text-underline-offset:3px; }
+    a:hover { color:#fff; }
+    .wrap { width:min(1180px,calc(100% - 40px)); margin-inline:auto; position:relative; }
+    header { padding:64px 0 38px; border-bottom:1px solid var(--line); }
+    .eyebrow { text-transform:uppercase; color:var(--gold); letter-spacing:.19em; font-size:.73rem; font-weight:600; }
+    h1 { font-size:clamp(2.4rem,6vw,5.3rem); line-height:.98; letter-spacing:-.06em; margin:14px 0 20px; max-width:900px; }
+    h1 span { color:var(--violet); }
+    .lede { color:#c6cad6; max-width:720px; font-size:1.08rem; }
+    .notice { margin-top:24px; border:1px solid #514c70; background:#171629d9; border-radius:14px; padding:14px 17px; color:#d4d0e9; max-width:820px; font-size:.91rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px; padding:22px 0 5px; }
+    nav a { display:inline-block; padding:8px 14px; border:1px solid #34394b; border-radius:999px; text-decoration:none; color:#d6d8e0; font-size:.87rem; }
+    nav a:hover { border-color:var(--violet); }
+    section { padding:45px 0 22px; }
+    .section-head { display:flex; align-items:end; justify-content:space-between; gap:18px; margin-bottom:22px; border-bottom:1px solid var(--line); padding-bottom:14px; }
+    h2 { margin:0; font-size:clamp(1.7rem,4vw,2.6rem); letter-spacing:-.04em; }
+    h3 { margin:0; font-size:1.1rem; }
+    .section-head p { margin:0; color:var(--muted); font-size:.9rem; }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+    .card { background:linear-gradient(145deg,#141a29ee,#0d121d); border:1px solid var(--line); border-radius:17px; overflow:hidden; box-shadow:0 18px 50px #0005; }
+    .photo-frame { min-height:190px; height:clamp(190px,28vw,330px); background:#080b12; display:grid; place-items:center; position:relative; }
+    .photo-frame img { width:100%; height:100%; object-fit:contain; display:block; }
+    .photo-frame .broken { display:none; padding:18px; text-align:center; color:#ffb9ab; }
+    .card-body { padding:17px 19px 19px; }
+    .card-top { display:flex; justify-content:space-between; align-items:start; gap:12px; }
+    .badge { flex:none; border:1px solid #464054; border-radius:999px; color:#e6d6a9; padding:3px 9px; font-size:.7rem; text-transform:uppercase; letter-spacing:.08em; }
+    .meta { color:var(--muted); font-size:.83rem; margin:8px 0 12px; overflow-wrap:anywhere; }
+    .credit { color:#c6c9d4; font-size:.83rem; margin:0 0 10px; }
+    .quality { min-height:1.5em; color:#f4bc72; font-size:.82rem; }
+    .quality.good { color:#a7d7bb; }
+    .quality.bad { color:#ff9b8c; }
+    .model-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+    .model-view { height:300px; display:block; width:100%; background:radial-gradient(ellipse at center,#1b2031,#080b12 72%); --poster-color:transparent; --progress-bar-color:#b6a5ff; }
+    .viewer-hint { color:#bbbfd0; font-size:.8rem; margin:10px 0 0; }
+    .model-links { display:flex; flex-wrap:wrap; gap:14px; font-size:.84rem; }
+    .status-panel { border:1px solid var(--line); border-radius:14px; background:#0d121ddd; padding:17px 20px; margin:20px 0 38px; }
+    .status-panel h3 { margin-bottom:7px; }
+    .status-panel ul { margin:8px 0 0; padding-left:22px; color:#c4c8d3; }
+    footer { border-top:1px solid var(--line); padding:22px 0 42px; color:var(--muted); font-size:.82rem; }
+    code { color:#e6d6a9; font-size:.88em; overflow-wrap:anywhere; }
+    @media(max-width:850px) { .model-grid { grid-template-columns:1fr 1fr; } }
+    @media(max-width:620px) { .wrap { width:min(100% - 24px,1180px); } header { padding-top:42px; } .grid,.model-grid { grid-template-columns:1fr; } .section-head { display:block; } .section-head p { margin-top:6px; } .model-view { height:290px; } }
+    @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } * { animation-duration:.01ms!important; transition-duration:.01ms!important; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="eyebrow">Temporary local inspection page · not the project website</div>
+      <h1>Asset <span>Preview</span></h1>
+      <p class="lede">A visual inventory of the NASA photographs and 3D assets collected for GHOSTS OF SPACE. This page references the actual files in <code>public/</code>; it does not replace or edit them.</p>
+      <div class="notice">Use a local HTTP server to inspect the GLB files. Drag to rotate; use the mouse wheel or pinch gesture to zoom. The viewer library is stored locally in <code>work/vendor/</code> under its Apache-2.0 license.</div>
+      <nav aria-label="Gallery sections"><a href="#moon">Moon photographs</a><a href="#mars">Mars photographs</a><a href="#models">3D models</a><a href="#issues">Quality and gaps</a></nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <section id="moon">
+      <div class="section-head"><div><div class="eyebrow">01 · Lunar surface</div><h2>Moon photographs</h2></div><p>4 local NASA images</p></div>
+      <div class="grid">
+        <article class="card photo-card" data-file="apollo-11-easep-retroreflector.jpg" data-credit="NASA" data-source="https://images.nasa.gov/details/as11-40-5948" data-caption="AS11-40-5948 · Aldrin after EASEP deployment; the passive seismic package and laser ranging reflector are visible.">
+          <div class="photo-frame"><img data-asset-path="images/artifacts/apollo-11-easep-retroreflector.jpg" alt="Apollo 11 EASEP equipment deployed on the Moon, including the laser ranging reflector"><div class="broken">Local image unavailable</div></div>
+          <div class="card-body"><div class="card-top"><h3>Apollo 11 EASEP / LR-3</h3><span class="badge">Moon</span></div><p class="meta"><code>apollo-11-easep-retroreflector.jpg</code><br><span class="resolution">Reading resolution…</span></p><p class="credit">Credit: NASA · <a href="https://images.nasa.gov/details/as11-40-5948" target="_blank" rel="noreferrer">Original NASA source</a></p><div class="quality"></div></div>
+        </article>
+        <article class="card photo-card" data-file="surveyor-3-on-moon.jpg" data-credit="NASA" data-source="https://images.nasa.gov/details/as12-48-7121" data-caption="AS12-48-7121 · Apollo 12 photograph of Surveyor 3 on the lunar surface.">
+          <div class="photo-frame"><img data-asset-path="images/artifacts/surveyor-3-on-moon.jpg" alt="Surveyor 3 spacecraft on the Moon during Apollo 12 visit"><div class="broken">Local image unavailable</div></div>
+          <div class="card-body"><div class="card-top"><h3>Surveyor 3 Lander</h3><span class="badge">Moon</span></div><p class="meta"><code>surveyor-3-on-moon.jpg</code><br><span class="resolution">Reading resolution…</span></p><p class="credit">Credit: NASA · <a href="https://images.nasa.gov/details/as12-48-7121" target="_blank" rel="noreferrer">Original NASA source</a></p><div class="quality"></div></div>
+        </article>
+        <article class="card photo-card" data-file="apollo-15-lrv-hadley-rille.jpg" data-credit="NASA" data-source="https://www.nasa.gov/mission/apollo-15/" data-caption="AS15-85-11451 · Dave Scott at the Lunar Roving Vehicle near Hadley Rille.">
+          <div class="photo-frame"><img data-asset-path="images/artifacts/apollo-15-lrv-hadley-rille.jpg" alt="Apollo 15 astronaut working beside the Lunar Roving Vehicle at Hadley Rille"><div class="broken">Local image unavailable</div></div>
+          <div class="card-body"><div class="card-top"><h3>Apollo 15 Lunar Roving Vehicle</h3><span class="badge">Moon</span></div><p class="meta"><code>apollo-15-lrv-hadley-rille.jpg</code><br><span class="resolution">Reading resolution…</span></p><p class="credit">Credit: NASA · <a href="https://www.nasa.gov/mission/apollo-15/" target="_blank" rel="noreferrer">NASA mission image and caption</a></p><div class="quality"></div></div>
+        </article>
+        <article class="card photo-card" data-file="apollo-14-alsep-station.jpg" data-credit="NASA/JSC" data-source="https://science.nasa.gov/resource/apollo-14-mission-image-view-of-the-alsep-station/" data-caption="AS14-67-9361 · Apollo 14 ALSEP central station and experiment equipment.">
+          <div class="photo-frame"><img data-asset-path="images/artifacts/apollo-14-alsep-station.jpg" alt="Apollo 14 ALSEP central station and active seismic experiment components on the Moon"><div class="broken">Local image unavailable</div></div>
+          <div class="card-body"><div class="card-top"><h3>Apollo 14 ALSEP</h3><span class="badge">Moon</span></div><p class="meta"><code>apollo-14-alsep-station.jpg</code><br><span class="resolution">Reading resolution…</span></p><p class="credit">Credit: NASA/JSC · <a href="https://science.nasa.gov/resource/apollo-14-mission-image-view-of-the-alsep-station/" target="_blank" rel="noreferrer">Original NASA source</a></p><div class="quality"></div></div>
+        </article>
+      </div>
+    </section>
+    <section id="mars">
+      <div class="section-head"><div><div class="eyebrow" style="color:var(--mars)">02 · Red planet</div><h2>Mars photographs</h2></div><p>4 local NASA images</p></div>
+      <div class="grid">
+        <article class="card photo-card" data-file="pathfinder-sojourner-rover-touchdown.jpg" data-credit="NASA/JPL-Caltech" data-source="https://photojournal.jpl.nasa.gov/catalog/PIA00623" data-caption="PIA00623 · Sojourner after driving onto the Martian surface.">
+          <div class="photo-frame"><img data-asset-path="images/artifacts/pathfinder-sojourner-rover-touchdown.jpg" alt="Sojourner rover after driving onto the surface of Mars"><div class="broken">Local image unavailable</div></div>
+          <div class="card-body"><div class="card-top"><h3>Sojourner · First Drive</h3><span class="badge">Mars</span></div><p class="meta"><code>pathfinder-sojourner-rover-touchdown.jpg</code><br><span class="resolution">Reading resolution…</span></p><p class="credit">Credit: NASA/JPL-Caltech · <a href="https://photojournal.jpl.nasa.gov/catalog/PIA00623" target="_blank" rel="noreferrer">Original NASA/JPL source</a></p><div class="quality"></div></div>
+        </article>
+        <article class="card photo-card" data-file="pathfinder-sojourner-panorama.jpg" data-credit="NASA/JPL-Caltech" data-source="https://science.nasa.gov/mission/mars-pathfinder/" data-caption="PIA00662 · Deployed Pathfinder panorama; lander petals and Sojourner are visible in the original panorama.">
+          <div class="photo-frame"><img data-asset-path="images/artifacts/pathfinder-sojourner-panorama.jpg" alt="Wide Pathfinder panorama with lander petals, airbags, ramps, and Sojourner visible"><div class="broken">Local image unavailable</div></div>
+          <div class="card-body"><div class="card-top"><h3>Pathfinder Landing Site</h3><span class="badge">Mars</span></div><p class="meta"><code>pathfinder-sojourner-panorama.jpg</code><br><span class="resolution">Reading resolution…</span></p><p class="credit">Credit: NASA/JPL-Caltech · <a href="https://science.nasa.gov/mission/mars-pathfinder/" target="_blank" rel="noreferrer">NASA mission page</a></p><div class="quality"></div></div>
+        </article>
+        <article class="card photo-card" data-file="phoenix-lander.jpg" data-credit="NASA/JPL-Caltech/University of Arizona" data-source="https://science.nasa.gov/photojournal/color-image-of-phoenix-lander-on-mars-surface/" data-caption="PIA10701 · Enhanced-color HiRISE orbital photograph of Phoenix; NASA notes the lander appears bluer than reality due to the filter combination.">
+          <div class="photo-frame"><img data-asset-path="images/artifacts/phoenix-lander.jpg" alt="Phoenix lander on Mars photographed from orbit by the HiRISE camera"><div class="broken">Local image unavailable</div></div>
+          <div class="card-body"><div class="card-top"><h3>Phoenix Mars Lander</h3><span class="badge">Mars</span></div><p class="meta"><code>phoenix-lander.jpg</code><br><span class="resolution">Reading resolution…</span></p><p class="credit">Credit: NASA/JPL-Caltech/University of Arizona · <a href="https://science.nasa.gov/photojournal/color-image-of-phoenix-lander-on-mars-surface/" target="_blank" rel="noreferrer">Original NASA source</a></p><div class="quality"></div></div>
+        </article>
+        <article class="card photo-card" data-file="insight-final-selfie.jpg" data-credit="NASA/JPL-Caltech" data-source="https://photojournal.jpl.nasa.gov/catalog/PIA25287" data-caption="PIA25287 · InSight final selfie, taken April 24, 2022.">
+          <div class="photo-frame"><img data-asset-path="images/artifacts/insight-final-selfie.jpg" alt="Dust-covered InSight lander in its final selfie on Mars"><div class="broken">Local image unavailable</div></div>
+          <div class="card-body"><div class="card-top"><h3>InSight · Final Selfie</h3><span class="badge">Mars</span></div><p class="meta"><code>insight-final-selfie.jpg</code><br><span class="resolution">Reading resolution…</span></p><p class="credit">Credit: NASA/JPL-Caltech · <a href="https://photojournal.jpl.nasa.gov/catalog/PIA25287" target="_blank" rel="noreferrer">Original NASA/JPL source</a></p><div class="quality"></div></div>
+        </article>
+      </div>
+    </section>
+    <section id="models">
+      <div class="section-head"><div><div class="eyebrow">03 · Selective 3D</div><h2>Downloaded GLB models</h2></div><p>Drag to rotate · wheel or pinch to zoom</p></div>
+      <div class="model-grid">
+        <article class="card model-card" data-file="moon_small.glb" data-name="NASA LRO Moon · small model" data-source="https://svs.gsfc.nasa.gov/14959/" data-credit="NASA Goddard Space Flight Center; data provider Ernie Wright (USRA); see NASA SVS credits for contributors.">
+          <model-viewer class="model-view" data-asset-path="models/planets/moon_small.glb" alt="Interactive NASA LRO lunar globe model" camera-controls touch-action="pan-y" interaction-prompt="auto" shadow-intensity="0.7" exposure="1" min-field-of-view="12deg" max-field-of-view="55deg"></model-viewer>
+          <div class="card-body"><div class="card-top"><h3>Moon · LRO relief</h3><span class="badge">Planet</span></div><p class="meta"><code>moon_small.glb</code><br><span class="model-facts">Reading file size…</span></p><p class="credit">Credit: NASA Goddard Space Flight Center; Ernie Wright (USRA), data provider.</p><p class="viewer-hint">NASA LRO-derived globe; not an artifact model. <a href="https://svs.gsfc.nasa.gov/14959/" target="_blank" rel="noreferrer">Original model and credits</a></p></div>
+        </article>
+        <article class="card model-card" data-file="mars.glb" data-name="Planet Mars" data-source="https://science.nasa.gov/resource/planet-mars-3d-model/" data-credit="NASA/JPL-Caltech.">
+          <model-viewer class="model-view" data-asset-path="models/planets/mars.glb" alt="Interactive NASA Mars globe model" camera-controls touch-action="pan-y" interaction-prompt="auto" shadow-intensity="0.7" exposure="1" min-field-of-view="12deg" max-field-of-view="55deg"></model-viewer>
+          <div class="card-body"><div class="card-top"><h3>Planet Mars</h3><span class="badge">Planet</span></div><p class="meta"><code>mars.glb</code><br><span class="model-facts">Reading file size…</span></p><p class="credit">Credit: NASA/JPL-Caltech.</p><p class="viewer-hint">Planet globe; not a surface artifact model. <a href="https://science.nasa.gov/resource/planet-mars-3d-model/" target="_blank" rel="noreferrer">Original model and credits</a></p></div>
+        </article>
+        <article class="card model-card" data-file="apollo-lunar-module.glb" data-name="Apollo Lunar Module" data-source="https://science.nasa.gov/3d-resources/apollo-lunar-module/" data-credit="NASA/Michael D. Carbajal.">
+          <model-viewer class="model-view" data-asset-path="models/spacecraft/apollo-lunar-module.glb" alt="Interactive NASA Apollo Lunar Module model" camera-controls touch-action="pan-y" interaction-prompt="auto" shadow-intensity="0.7" exposure="1" min-field-of-view="12deg" max-field-of-view="55deg"></model-viewer>
+          <div class="card-body"><div class="card-top"><h3>Apollo Lunar Module</h3><span class="badge">Spacecraft</span></div><p class="meta"><code>apollo-lunar-module.glb</code><br><span class="model-facts">Reading file size…</span></p><p class="credit">Credit: NASA/Michael D. Carbajal.</p><p class="viewer-hint">Contextual spacecraft model, not the LR-3, ALSEP, Surveyor 3, or LRV. <a href="https://science.nasa.gov/3d-resources/apollo-lunar-module/" target="_blank" rel="noreferrer">Original model and credits</a></p></div>
+        </article>
+      </div>
+    </section>
+    <section id="issues">
+      <div class="section-head"><div><div class="eyebrow">04 · Review notes</div><h2>Quality and gaps</h2></div></div>
+      <div class="status-panel">
+        <h3>Detected from the local files</h3>
+        <ul id="asset-status"><li>Checking local image and model files…</li></ul>
+      </div>
+      <div class="status-panel">
+        <h3>Known collection limitations</h3>
+        <ul>
+          <li>PIA00623 is only 471 × 285 pixels in the downloaded NASA medium variant; suitable for a small card or inset, not a hero image.</li>
+          <li>Phoenix PIA10701 is 508 × 600 pixels in NASA's available original; it is also a small card/detail image, not a hero background.</li>
+          <li>The PIA00662 panorama is very wide (1800 × 319 after optimization); it can look short in a card. Original NASA panorama available from its source page.</li>
+          <li>No artifact-specific GLB was confirmed for the LR-3, Surveyor 3, LRV, ALSEP, Pathfinder, Sojourner, Phoenix, or InSight. Moon/Mars globes and the Lunar Module are identified as context models.</li>
+          <li>No dedicated lunar or Mars section-background image, audio, or icon pack was downloaded.</li>
+          <li>GLB files are local and interactive; the Moon model is about 13.8 MB and may take longer to load on slower devices.</li>
+        </ul>
+      </div>
+      <p class="meta">Full asset register: <a href="../ASSET-REFERENCES.md">ASSET-REFERENCES.md</a></p>
+    </section>
+  </main>
+  <footer><div class="wrap">Temporary inspection utility. NASA source links and credits are shown with each file. No image placeholders are used.</div></footer>
+  <script>
+    const formatBytes = (n) => n >= 1048576 ? `${(n / 1048576).toFixed(2)} MB` : `${(n / 1024).toFixed(1)} KB`;
+    const assetStates = new Map();
+    function markAsset(name, state, detail) { assetStates.set(name, {state, detail}); updateStatus(); }
+    async function resolveLocalAsset(path) {
+      for (const url of [`/${path}`, `../public/${path}`]) {
+        try {
+          const response = await fetch(url, {method:'HEAD'});
+          const type = response.headers.get('content-type') || '';
+          if (response.ok && !type.includes('text/html')) return {url, size:Number(response.headers.get('content-length')) || 0};
+        } catch {}
+      }
+      return null;
+    }
+    document.querySelectorAll('.photo-card').forEach((card) => {
+      const img = card.querySelector('img');
+      const resolution = card.querySelector('.resolution');
+      const quality = card.querySelector('.quality');
+      img.addEventListener('load', () => {
+        const w = img.naturalWidth, h = img.naturalHeight;
+        resolution.textContent = `${w} × ${h} px · ${formatBytes(Number(img.getAttribute('data-size') || 0))}`;
+        const low = w < 600 || h < 300;
+        quality.textContent = low ? 'Low resolution: use small or medium card only.' : 'Local image loaded.';
+        quality.classList.add(low ? 'bad' : 'good');
+        markAsset(card.dataset.file, low ? 'low' : 'ready', `${w} × ${h} px${low ? ' · low resolution' : ''}`);
+      });
+      img.addEventListener('error', () => {
+        img.style.display = 'none'; card.querySelector('.broken').style.display = 'block';
+        resolution.textContent = 'Local file missing or unreadable'; quality.textContent = 'Broken or missing local image.'; quality.classList.add('bad');
+        markAsset(card.dataset.file, 'missing', 'missing or unreadable local image');
+      });
+      resolveLocalAsset(img.dataset.assetPath).then((asset) => {
+        if (!asset) { img.dispatchEvent(new Event('error')); return; }
+        img.dataset.size = String(asset.size);
+        img.src = asset.url;
+      });
+    });
+    document.querySelectorAll('.model-card').forEach((card) => {
+      const viewer = card.querySelector('model-viewer');
+      const facts = card.querySelector('.model-facts');
+      resolveLocalAsset(viewer.dataset.assetPath).then((asset) => {
+        if (!asset) throw new Error('missing');
+        facts.textContent = `${formatBytes(asset.size)} · GLB binary · interactive rotate/zoom`;
+        markAsset(card.dataset.file, 'present', `${formatBytes(asset.size)} · waiting for 3D render`);
+        viewer.src = asset.url;
+      }).catch(() => { facts.textContent = 'GLB file missing or not served'; markAsset(card.dataset.file, 'missing', 'missing local GLB file'); });
+      viewer.addEventListener('load', () => markAsset(card.dataset.file, 'ready', 'GLB loaded in interactive viewer'));
+      viewer.addEventListener('error', () => { facts.textContent = 'Could not render this GLB in the current browser'; markAsset(card.dataset.file, 'error', 'viewer could not render this GLB'); });
+    });
+    function updateStatus() {
+      const list = document.getElementById('asset-status');
+      const problems = [...assetStates.entries()].filter(([,v]) => ['missing','low','error','slow'].includes(v.state));
+      const unresolved = 11 - assetStates.size;
+      const lines = problems.map(([name,v]) => `<li><code>${name}</code> — ${v.detail}</li>`);
+      if (unresolved) lines.unshift(`<li>Inspection in progress: ${assetStates.size} of 11 local files responded; ${unresolved} still loading or not yet checked.</li>`);
+      if (!problems.length && !unresolved) lines.unshift('<li>All 8 photos loaded and all 3 GLB files rendered in the interactive viewer.</li>');
+      list.innerHTML = lines.length ? lines.join('') : '<li>Checking local images and GLB files…</li>';
+    }
+    setTimeout(() => {
+      document.querySelectorAll('.model-card').forEach((card) => {
+        if (assetStates.get(card.dataset.file)?.state === 'present') markAsset(card.dataset.file, 'slow', 'file is present, but rendering is taking longer than expected');
+      });
+      updateStatus();
+    }, 20000);
+  </script>
+</body>
+</html>
