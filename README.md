@@ -129,7 +129,7 @@ NASA content is generally usable for factual educational/informational purposes 
 
 ## Deployment
 
-Deployment has not been configured. Once the website is built and approved, the project can be prepared for a free static host such as GitHub Pages. The Vite base path and deployment workflow will need to be configured for the chosen repository/host before publishing.
+The project is uploaded to the GitHub repository and configured for Vercel with `vercel.json` (`npm run build` and `dist`). Hash-based routes do not require server rewrites. The site has not been deployed on Vercel.
 
 ## Current verification notes
 
