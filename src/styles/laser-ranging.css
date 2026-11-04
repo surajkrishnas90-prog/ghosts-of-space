@@ -28,6 +28,7 @@
 .lr-pulse--out{z-index:2}
 .lr-pulse--back{z-index:2}
 .lr-reflector__panel i{position:relative;border-radius:40% 40% 50% 50%;background:conic-gradient(from 225deg at 50% 50%,#263842,#e9fbff 16%,#8bbbc8 39%,#f5ffff 58%,#334751 78%,#d8f8ff);box-shadow:inset 0 0 2px #fff,0 0 3px #c8f3ff99}
+.lr-motion-notice{margin:10px 0 0;color:#858995;font:9px/1.55 'DM Mono',monospace}
 @keyframes lr-camera-earth{0%,100%{transform:translateY(-50%) translateZ(0)}45%{transform:translateY(-50%) translateZ(5px)}}
 @keyframes lr-camera-moon{0%,100%{transform:translateY(-50%) translateZ(0)}55%{transform:translateY(-50%) translateZ(-3px)}}
 @media(prefers-reduced-motion:reduce){.lr-earth-sphere{animation:none}}

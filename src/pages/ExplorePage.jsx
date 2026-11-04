@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ArtifactPanel, { ArtifactCard } from '../components/ArtifactPanel.jsx';
 import { artifacts, worlds } from '../data/artifacts.js';
+import { requestAudioEffect, requestAudioScene } from '../audio/soundEngine.js';
 
 function WorldNavigation({ activeWorld }) {
   return (
@@ -121,6 +122,7 @@ export default function ExplorePage({ routeHash }) {
   const activeWorld = selectedArtifact?.world ?? visibleWorld ?? routeWorld;
   const motionAllowed = useMemo(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches, []);
   const closePanel = useCallback(() => {
+    requestAudioEffect('artifact-close');
     window.location.hash = `#${selectedArtifact?.world ?? activeWorld}`;
   }, [activeWorld, selectedArtifact?.world]);
 
@@ -129,6 +131,13 @@ export default function ExplorePage({ routeHash }) {
     pendingWorldRef.current = destination;
     setVisibleWorld(destination);
   }, [routeHash, routeWorld, selectedArtifact?.world]);
+
+  useEffect(() => {
+    const audioScene = selectedArtifact?.id === 'apollo-11-reflector' ? 'apollo'
+      : selectedArtifact?.id === 'insight' ? 'insight'
+        : selectedArtifact?.world ?? visibleWorld ?? routeWorld;
+    requestAudioScene(audioScene);
+  }, [selectedArtifact?.id, selectedArtifact?.world, visibleWorld, routeWorld]);
 
   useEffect(() => {
     if (!('IntersectionObserver' in window)) return undefined;
@@ -183,7 +192,11 @@ export default function ExplorePage({ routeHash }) {
   function rememberArtifactScroll(event) {
     if (event.target.closest('[data-artifact-trigger]')) {
       sessionStorage.setItem('ghosts:artifact-return-scroll', String(window.scrollY));
+      requestAudioEffect('artifact-open');
+      return;
     }
+    const worldLink = event.target.closest('a[href="#moon"], a[href="#mars"]');
+    if (worldLink) requestAudioEffect('world-transition');
   }
 
   return (

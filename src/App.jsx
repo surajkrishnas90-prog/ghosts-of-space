@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import ExplorePage from './pages/ExplorePage.jsx';
+import AudioController from './components/AudioController.jsx';
+import { requestAudioEffect } from './audio/soundEngine.js';
 
 const stars = Array.from({ length: 72 }, (_, i) => ({
   left: `${(i * 47 + 9) % 100}%`,
@@ -25,6 +27,7 @@ export default function App() {
 
   function exploreTheLost(event) {
     if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    requestAudioEffect('transition');
     const startTransition = document.startViewTransition;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!startTransition || reducedMotion) return;
@@ -60,11 +63,16 @@ export default function App() {
     return () => window.removeEventListener('pointermove', move);
   }, [routeHash]);
 
+  const audioScene = routeHash.startsWith('#artifact/')
+    ? (routeHash.endsWith('insight') ? 'insight' : routeHash.endsWith('apollo-11-reflector') ? 'apollo' : routeHash.includes('mars-') || ['sojourner', 'phoenix'].some((id) => routeHash.endsWith(id)) ? 'mars' : 'moon')
+    : routeHash.startsWith('#mars') || routeHash === '#credits' ? 'mars' : routeHash.startsWith('#moon') ? 'moon' : 'home';
+
   if (routeHash === '#moon' || routeHash.startsWith('#moon-') || routeHash === '#mars' || routeHash.startsWith('#mars-') || routeHash === '#credits' || routeHash.startsWith('#artifact/')) {
-    return <ExplorePage routeHash={routeHash} />;
+    return <><ExplorePage routeHash={routeHash} /><AudioController scene={audioScene} /></>;
   }
 
   return (
+    <>
     <main className="hero" ref={scene} id="home">
       <div className="stars" aria-hidden="true">{stars.map((star, i) => <i key={i} className={`star ${star.size}`} style={{ left: star.left, top: star.top, animationDelay: star.delay }} />)}</div>
       <div className="nebula nebula--one" aria-hidden="true" />
@@ -73,7 +81,7 @@ export default function App() {
       <div className="lunar-foreground" aria-hidden="true"><span className="ridge ridge--back" /><span className="ridge ridge--front" /><i className="foreground-rock rock--one" /><i className="foreground-rock rock--two" /><i className="foreground-rock rock--three" /></div>
       <div className="planet-wrap" aria-hidden="true">
         <div className="planet-glow" />
-        <model-viewer className="moon-model" src="/models/planets/moon_home.glb" alt="NASA lunar globe rendered in the night sky" loading="eager" reveal="auto" shadow-intensity="0" exposure="0.94" environment-image="neutral" camera-target="0m 0m 0m" disable-zoom disable-pan interaction-prompt="none" rotation-per-second="1deg" aria-hidden="true" />
+        <model-viewer className="moon-model" src="/models/planets/moon_home.glb" alt="NASA lunar globe rendered in the night sky" loading="eager" reveal="auto" shadow-intensity="0" exposure="0.94" environment-image="neutral" camera-target="0m 0m 0m" disable-zoom disable-pan interaction-prompt="none" rotation-per-second="1deg" aria-hidden="true" inert />
         <div className="planet-shadow" />
       </div>
 
@@ -95,6 +103,8 @@ export default function App() {
       <div className="coordinates">0° 40′ 26.69″ N <span>·</span> 23° 28′ 22.69″ E</div>
       <footer className="hero-footer"><span>NASA SPACE APPS CHALLENGE 2026</span><span className="footer-center">DISCOVER WHAT REMAINS</span><span>AN EXPLORATION BY <b>LEVENTHREE</b></span></footer>
     </main>
+    <AudioController scene="home" />
+    </>
   );
 }
 

@@ -1,4 +1,5 @@
 import '../styles/insight-marsquake.css';
+import { requestAudioEffect } from '../audio/soundEngine.js';
 
 const seismogram = 'https://assets.science.nasa.gov/dynamicimage/assets/science/psd/mars/downloadable_items/4/6/46331_E1-PIA24761-Seismogram_from_Mars.jpg?crop=faces%2Cfocalpoint&fit=clip&h=831&w=2687';
 
@@ -24,6 +25,6 @@ export default function InsightMarsquakeExperience() {
       <figure><img src={seismogram} alt="NASA archival seismogram showing a marsquake detected by InSight on mission sol 235" loading="lazy" decoding="async"/><figcaption>Archival seismogram · NASA/JPL-Caltech · NASA captions the event July 25, 2019. <a href="https://science.nasa.gov/resource/seismogram-from-mars/" target="_blank" rel="noreferrer">Open NASA source ↗</a></figcaption></figure>
       <p className="insight-data-limit">This is NASA’s archival seismogram image, not an interactive waveform. Matching raw PDS waveform integration remains future work; no sample values or amplitude units are inferred here.</p>
     </section>
-    <section className="insight-simulation" aria-labelledby="insight-simulation-title"><p className="explore-eyebrow">CONCEPTUAL MODEL</p><h3 id="insight-simulation-title">Waves through a planet</h3><p>Seismic energy can travel through the crust and deeper interior. The layered geometry and wave motion below are explanatory illustrations, not a reconstruction of S0235b.</p><MarsInterior/></section>
+    <section className="insight-simulation" aria-labelledby="insight-simulation-title"><p className="explore-eyebrow">CONCEPTUAL MODEL</p><h3 id="insight-simulation-title">Waves through a planet</h3><p>Seismic energy can travel through the crust and deeper interior. The layered geometry and wave motion below are explanatory illustrations, not a reconstruction of S0235b.</p><MarsInterior/><button className="insight-sound-trigger" type="button" onClick={() => requestAudioEffect('insight')}>Play illustrative seismic tone <span aria-hidden="true">→</span></button><p className="insight-audio-note">Original sound design for this exhibit · not a recording of S0235b or Mars seismic audio.</p></section>
   </div>;
 }
